@@ -1,9 +1,14 @@
-import React from 'react'
+import React from 'react';
+
+import PrizePoolCard from '../components/PrizePoolCard';
 
 export default function Home() {
   return (
     <div>
-      <h1>Collect NFT Bingo</h1>
+      <PrizePoolCard 
+        collectionsNum={3}
+        poolPrize={600}
+        awardedWon={300} />
     </div>
   )
 }
