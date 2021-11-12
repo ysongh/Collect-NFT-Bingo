@@ -30,6 +30,19 @@ contract CollectNFT {
         uint[] imageIdList;
     }
     
+    event ImageCreated (
+        uint imageId,
+        uint poolId,
+        string url,
+        address payable owner
+    );
+    
+    event ImageWon (
+        uint imageId,
+        uint poolId,
+        address payable owner
+    );
+    
     function createPool() external {
         poolCount++;
         pools[poolCount] = Pool(poolCount, new uint[](0), 0, msg.sender);
@@ -44,17 +57,13 @@ contract CollectNFT {
         Pool storage _pool = pools[_poolId];
         _pool.imageIdList.push(imageCount);
         _pool.imageCount++;
+        
+        emit ImageCreated(imageCount, _poolId, _url, msg.sender);
     }
     
     function createUserCard(uint _poolId) external {
         userCardList[msg.sender][_poolId] = UserCard(_poolId, 0, new uint[](0));
     }
-    
-    // function buyLootBox() external {
-    //     for(uint i = 0; i < 5; i++){
-    //         earnNFTofImage();
-    //     }
-    // }
     
     function earnNFTofImage() external {
         uint _randomNumber = getRandomValue(imageCount);
@@ -63,6 +72,8 @@ contract CollectNFT {
         UserCard storage _userCard = userCardList[msg.sender][_images.poolId];
         _userCard.imageIdList.push(_images.id);
         _userCard.imageCount++;
+        
+         emit ImageWon(_images.id, _images.poolId, msg.sender);
     }
     
     function earnNFTofImageByPool(uint _poolId) external {
