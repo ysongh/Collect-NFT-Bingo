@@ -19,6 +19,7 @@ contract CollectNFT {
     
     struct Image {
         uint id;
+        uint poolId;
         string url;
         address payable owner;
     }
@@ -37,7 +38,7 @@ contract CollectNFT {
     function addImageToPool(uint _poolId, string memory _url) external {
         // Add Image to the Image List
         imageCount++;
-        images[imageCount] = Image(imageCount, _url, msg.sender);
+        images[imageCount] = Image(imageCount, _poolId, _url, msg.sender);
         
         // Add Image to the Pool
         Pool storage _pool = pools[_poolId];
@@ -49,7 +50,22 @@ contract CollectNFT {
         userCardList[msg.sender][_poolId] = UserCard(_poolId, 0, new uint[](0));
     }
     
-    function earnNFTofImage(uint _poolId) external {
+    // function buyLootBox() external {
+    //     for(uint i = 0; i < 5; i++){
+    //         earnNFTofImage();
+    //     }
+    // }
+    
+    function earnNFTofImage() external {
+        uint _randomNumber = getRandomValue(imageCount);
+        Image storage _images = images[_randomNumber + 1];
+        
+        UserCard storage _userCard = userCardList[msg.sender][_images.poolId];
+        _userCard.imageIdList.push(_images.id);
+        _userCard.imageCount++;
+    }
+    
+    function earnNFTofImageByPool(uint _poolId) external {
         Pool storage _pool = pools[_poolId];
         uint _randomNumber = getRandomValue(_pool.imageCount);
         
