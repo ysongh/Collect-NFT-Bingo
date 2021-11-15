@@ -1,4 +1,5 @@
 require("@nomiclabs/hardhat-waffle");
+require('dotenv').config();
 
 // This is a sample Hardhat task. To learn how to create your own go to
 // https://hardhat.org/guides/create-task.html
@@ -18,4 +19,16 @@ task("accounts", "Prints the list of accounts", async (taskArgs, hre) => {
  */
 module.exports = {
   solidity: "0.6.12",
+  defaultNetwork: "hardhat",
+  networks: {
+    hardhat: {
+      chainId: 80001
+    },
+    // npx hardhat run scripts/sample-script.js --network mumbai
+    mumbai: {
+      url: `https://polygon-mumbai.g.alchemy.com/v2/${process.env.ALCHEMYAPI_KEY}`,
+      accounts: [process.env.PRIVATEKEY],
+      gasPrice: 8000000000
+    }
+  },
 };
