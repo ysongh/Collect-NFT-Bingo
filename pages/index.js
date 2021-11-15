@@ -1,13 +1,23 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Row, Col, Card, Button } from 'antd';
 
 import PrizePoolCard from '../components/PrizePoolCard';
 
-export default function Home() {
+export default function Home({ collectContract }) {
+  const [numberOfCollection, setNumberOfCollection] = useState(0);
+
+  useEffect(() => {
+    async function getCollectionNum(){
+      const num = await collectContract.poolCount();
+      setNumberOfCollection(num);
+    }
+    if(collectContract) getCollectionNum();
+  }, [collectContract])
+
   return (
     <div>
       <PrizePoolCard 
-        collectionsNum={3}
+        collectionsNum={numberOfCollection}
         poolPrize={600}
         awardedWon={300} />
 
