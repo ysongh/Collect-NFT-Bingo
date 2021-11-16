@@ -26,7 +26,7 @@ export default function CollectionDetail({ collectContract }) {
           <p>Owner {collection.owner && collection.owner.toString()}</p>
         </div>
         
-        <Button type="primary" size="large">
+        <Button type="primary" size="large"  onClick={() => router.push(`/collection/${id}/add-image`)}>
           Add Image to Collection
         </Button>
       </div>
