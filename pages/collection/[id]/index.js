@@ -7,6 +7,7 @@ export default function CollectionDetail({ collectContract }) {
   const { id } = router.query;
 
   const [collection, setCollection] = useState({});
+  const [imageList, setImageList] = useState([]);
 
   useEffect(() => {
     if(collectContract) getCollectionData();
@@ -16,6 +17,19 @@ export default function CollectionDetail({ collectContract }) {
     const data = await collectContract.pools(id);
     console.log(data)
     setCollection(data);
+
+    
+    const poolImages = await collectContract.getPoolImages(id);
+    console.log(poolImages);
+
+    let temp = [];
+    for(let i = 0; i < poolImages.length; i++) {
+      const imageId = poolImages[i];
+      const data = await collectContract.images(imageId);
+      temp.push(data);
+    }
+
+    setImageList(temp);
   }
 
   return (
@@ -33,26 +47,13 @@ export default function CollectionDetail({ collectContract }) {
       
 
       <Row gutter={[10, 10]} style={{ marginTop: '1rem' }}>
-        <Col className="gutter-row" sm={{ span: 12 }} md={{ span: 8 }} md={{ span: 6 }}>
-          <Card>
-            <Card.Meta title="Image" />
-          </Card>
-        </Col>
-        <Col className="gutter-row" sm={{ span: 12 }} md={{ span: 8 }} md={{ span: 6 }}>
-          <Card>
-            <Card.Meta title="Image" />
-          </Card>
-        </Col>
-        <Col className="gutter-row" sm={{ span: 12 }} md={{ span: 8 }} md={{ span: 6 }}>
-          <Card>
-            <Card.Meta title="Image" />
-          </Card>
-        </Col>
-        <Col className="gutter-row" sm={{ span: 12 }} md={{ span: 8 }} md={{ span: 6 }}>
-          <Card>
-            <Card.Meta title="Image" />
-          </Card>
-        </Col>
+        {imageList.map(image => (
+          <Col key={image.id.toString()} className="gutter-row" sm={{ span: 12 }} md={{ span: 8 }} md={{ span: 6 }}>
+            <Card cover={<img src={image.url} alt="Collection Image" />}>
+              <Card.Meta title={`Image #${image.id.toString()}`} />
+            </Card>
+          </Col>
+        ))}
       </Row>
 
       <center style={{ margin: '2rem 0'}}>

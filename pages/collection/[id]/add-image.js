@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import { Row, Col, Form, Upload, Input, Button, message } from 'antd';
 import { InboxOutlined } from '@ant-design/icons';
 
-export default function AddImageToColllection({  }) {
+export default function AddImageToColllection({ collectContract }) {
   const router = useRouter();
   const { id } = router.query;
   const [form] = Form.useForm();
@@ -16,7 +16,10 @@ export default function AddImageToColllection({  }) {
       setLoading(true);
       console.log(image, values);
 
+      await collectContract.addImageToPool(id, values.name);
+
       setLoading(false);
+      router.push(`/collection/${id}/`);
     } catch(error){
       setLoading(false);
     }
