@@ -9,6 +9,8 @@ export default function Home({ collectContract }) {
 
   const [numberOfCollection, setNumberOfCollection] = useState(0);
   const [collections, setCollections] = useState([]);
+  const [transactionHash, setTransactionHash] = useState('');
+  const [lootBoxLoading, setLootBoxLoading] = useState(false);
   const [createCollectionLoading, setCreateCollectionLoading] = useState(false);
 
   useEffect(() => {
@@ -40,6 +42,22 @@ export default function Home({ collectContract }) {
     }
   }
 
+  async function buyLootBox(){
+    try{
+      setLootBoxLoading(true);
+
+      const transaction = await collectContract.buyLootBox();
+      const tx = await transaction.wait();
+      console.log(tx);
+
+      setTransactionHash(tx.transactionHash);
+      setLootBoxLoading(false);
+    } catch(error) {
+      console.error(error);
+      setLootBoxLoading(false);
+    }
+  }
+
   return (
     <div>
       <PrizePoolCard 
@@ -48,9 +66,17 @@ export default function Home({ collectContract }) {
         awardedWon={300} />
 
       <center style={{ margin: '2rem 0'}}>
-        <Button type="primary" size="large">
+        <Button type="primary" size="large" onClick={buyLootBox} loading={lootBoxLoading}>
           Purchase a lootbox
         </Button>
+        {transactionHash &&
+          <p className="transactionHash">
+            Success, see transaction {" "}
+            <a href={`https://mumbai.polygonscan.com/tx/${transactionHash}`} target="_blank" rel="noopener noreferrer">
+              {transactionHash.substring(0, 10) + '...' + transactionHash.substring(56, 66)}
+            </a>
+          </p>
+        }
       </center>
       
       <Row gutter={[10, 10]} style={{ marginTop: '1rem' }}>

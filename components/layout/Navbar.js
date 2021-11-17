@@ -24,7 +24,7 @@ function Navbar({ walletAddress, setWalletAddress, setCollectContract }) {
 
   return (
     <Layout.Header style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-      <h2 style={{ flex: 1, color: 'white'}}>Logo</h2>
+      <h2 style={{ color: 'white'}}>Logo</h2>
       <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['1']}>
         <Menu.Item key="1">
           <Link href="/">
@@ -37,8 +37,8 @@ function Navbar({ walletAddress, setWalletAddress, setCollectContract }) {
           </Link>
         </Menu.Item>
 				<Menu.Item key="3">
-          <Link href="/">
-            Collection
+          <Link href="/collection/my-collection">
+            My Collection
           </Link>
         </Menu.Item>
 				<Menu.Item key="4">
