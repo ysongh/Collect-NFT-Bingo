@@ -8,6 +8,7 @@ export default function CollectionDetail({ collectContract }) {
 
   const [collection, setCollection] = useState({});
   const [imageList, setImageList] = useState([]);
+  const [isWinnerText, setIsWinnerText] = useState("");
 
   useEffect(() => {
     if(collectContract) getCollectionData();
@@ -18,7 +19,6 @@ export default function CollectionDetail({ collectContract }) {
     console.log(data)
     setCollection(data);
 
-    
     const poolImages = await collectContract.getPoolImages(id);
     console.log(poolImages);
 
@@ -30,6 +30,14 @@ export default function CollectionDetail({ collectContract }) {
     }
 
     setImageList(temp);
+  }
+
+  async function claimPrize() {
+    const isWinner = await collectContract.checkWinner(id);
+    console.log(isWinner);
+
+    if(isWinner) setIsWinnerText("You Won!");
+    else setIsWinnerText("You did not win!");
   }
 
   return (
@@ -58,10 +66,11 @@ export default function CollectionDetail({ collectContract }) {
 
       <center style={{ margin: '2rem 0'}}>
         <h2>Prize Pool: $400</h2>
-        <Button type="primary" size="large">
+        <Button type="primary" size="large" onClick={claimPrize}>
           Claim Prize
         </Button>
         <br />
+        <h4>{isWinnerText}</h4>
         <br />
         <p>
           To claim prize, you must have all the images in the collection

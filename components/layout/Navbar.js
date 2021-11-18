@@ -32,7 +32,7 @@ function Navbar({ walletAddress, setWalletAddress, setCollectContract }) {
           </Link>
         </Menu.Item>
         <Menu.Item key="2">
-          <Link href="/">
+          <Link href="/lootbox">
             Lootbox
           </Link>
         </Menu.Item>

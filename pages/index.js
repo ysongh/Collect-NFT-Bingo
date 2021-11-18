@@ -66,6 +66,7 @@ export default function Home({ collectContract }) {
         awardedWon={300} />
 
       <center style={{ margin: '2rem 0'}}>
+        <h2>Price: $10</h2>
         <Button type="primary" size="large" onClick={buyLootBox} loading={lootBoxLoading}>
           Purchase a lootbox
         </Button>
