@@ -11,7 +11,6 @@ export default function Home({ collectContract }) {
   const [collections, setCollections] = useState([]);
   const [transactionHash, setTransactionHash] = useState('');
   const [lootBoxLoading, setLootBoxLoading] = useState(false);
-  const [createCollectionLoading, setCreateCollectionLoading] = useState(false);
 
   useEffect(() => {
     if(collectContract) getCollectionData();
@@ -28,18 +27,6 @@ export default function Home({ collectContract }) {
     }
 
     setCollections(temp);
-  }
-
-  async function createCollection(){
-    try{
-      setCreateCollectionLoading(true);
-      await collectContract.createPool();
-      await getCollectionData();
-      setCreateCollectionLoading(false);
-    } catch(error) {
-      console.error(error);
-      setCreateCollectionLoading(false);
-    }
   }
 
   async function buyLootBox(){
@@ -84,7 +71,7 @@ export default function Home({ collectContract }) {
         {collections.map(collection => (
           <Col key={collection.id} className="gutter-row" sm={{ span: 12 }} md={{ span: 8 }} md={{ span: 6 }}>
             <Card>
-              <Card.Meta title={`Collection #${collection.id}`} description="Prize Pool: $200" />
+              <Card.Meta title={`${collection.collectionName}`} description="Prize Pool: $200" />
               <br />
               <Button type="primary" onClick={() => router.push(`/collection/${collection.id}`)}>
                 View
@@ -95,7 +82,7 @@ export default function Home({ collectContract }) {
       </Row>
 
       <center style={{ margin: '2rem 0'}}>
-        <Button type="primary" size="large" onClick={createCollection} loading={createCollectionLoading}>
+        <Button type="primary" size="large" onClick={() => router.push(`/collection/create`)}>
           Create your Collection
         </Button>
       </center>

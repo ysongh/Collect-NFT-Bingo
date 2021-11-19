@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.6.12;
+pragma experimental ABIEncoderV2;
 
 import "@chainlink/contracts/src/v0.6/VRFConsumerBase.sol";
 
@@ -37,8 +38,12 @@ contract CollectNFT is VRFConsumerBase {
     
     struct Pool {
         uint id;
+        string collectionName;
+        string creatorName;
+        string description;
         uint[] imageIdList;
         uint imageCount;
+        uint poolPrize;
         address payable owner;
     }
     
@@ -68,18 +73,17 @@ contract CollectNFT is VRFConsumerBase {
         address payable owner
     );
     
-     event TestR (
-        bytes32 imageId,
-        uint poolId,
-        address payable owner
-    );
-    
-    function createPool() external {
+    function createPool(string memory _collectionName, string memory _creatorName, string memory _description, string[] memory _urls, uint _arrLength) external {
         poolCount++;
-        pools[poolCount] = Pool(poolCount, new uint[](0), 0, msg.sender);
+        pools[poolCount] = Pool(poolCount, _collectionName, _creatorName, _description, new uint[](0), 0, 0, msg.sender);
+        
+        // Add images to the collection
+        for (uint i = 0; i < _arrLength; i++) {
+            addImageToPool(poolCount, _urls[i]);
+        }
     }
     
-    function addImageToPool(uint _poolId, string memory _url) external {
+    function addImageToPool(uint _poolId, string memory _url) public {
         // Add Image to the Image List
         imageCount++;
         images[imageCount] = Image(imageCount, _poolId, _url, msg.sender);

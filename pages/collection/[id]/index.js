@@ -44,8 +44,8 @@ export default function CollectionDetail({ collectContract }) {
     <div>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
         <div>
-          <h1>Collection #{collection.id && collection.id.toString()}</h1>
-          <p>Owner {collection.owner && collection.owner.toString()}</p>
+          <h1>Collection #{collection.id && collection.id.toString()} - {collection.collectionName && collection.collectionName.toString()}</h1>
+          <p>Owner {collection.creatorName && collection.creatorName.toString()} ({collection.owner && collection.owner.toString()})</p>
         </div>
         
         <Button type="primary" size="large"  onClick={() => router.push(`/collection/${id}/add-image`)}>
@@ -53,6 +53,7 @@ export default function CollectionDetail({ collectContract }) {
         </Button>
       </div>
       
+      <p>{collection.description && collection.description.toString()}</p>
 
       <Row gutter={[10, 10]} style={{ marginTop: '1rem' }}>
         {imageList.map(image => (
