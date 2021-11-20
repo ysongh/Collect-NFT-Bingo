@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
+import { ethers } from 'ethers';
 import { Row, Col, Card, Divider, Button } from 'antd';
 
 export default function CollectionDetail({ collectContract }) {
@@ -66,7 +67,7 @@ export default function CollectionDetail({ collectContract }) {
       </Row>
 
       <center style={{ margin: '2rem 0'}}>
-        <h2>Prize Pool: $400</h2>
+        <h2>Prize Pool: MATIC {ethers.utils.formatUnits(collection.poolPrize.toString(), 'ether')}</h2>
         <Button type="primary" size="large" onClick={claimPrize}>
           Claim Prize
         </Button>

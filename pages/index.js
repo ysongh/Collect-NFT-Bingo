@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
+import { ethers } from 'ethers';
 import { Row, Col, Card, Button } from 'antd';
 
 import PrizePoolCard from '../components/PrizePoolCard';
@@ -8,6 +9,7 @@ export default function Home({ collectContract }) {
   const router = useRouter();
 
   const [numberOfCollection, setNumberOfCollection] = useState(0);
+  const [poolPrize, setPoolPrize] = useState(0);
   const [collections, setCollections] = useState([]);
   const [transactionHash, setTransactionHash] = useState('');
   const [lootBoxLoading, setLootBoxLoading] = useState(false);
@@ -21,6 +23,9 @@ export default function Home({ collectContract }) {
     const num = await collectContract.poolCount();
     setNumberOfCollection(num);
 
+    const prizeAmount = await collectContract.getPrizePool();
+    setPoolPrize(prizeAmount);
+
     for(let i = 1; i <= num; i++) {
       const data = await collectContract.pools(i);
       temp.push(data);
@@ -33,7 +38,8 @@ export default function Home({ collectContract }) {
     try{
       setLootBoxLoading(true);
 
-      const transaction = await collectContract.buyLootBox();
+      const ethToWei = ethers.utils.parseUnits('1', 'ether');
+      const transaction = await collectContract.buyLootBox({ value: ethToWei });
       const tx = await transaction.wait();
       console.log(tx);
 
@@ -49,7 +55,7 @@ export default function Home({ collectContract }) {
     <div>
       <PrizePoolCard 
         collectionsNum={numberOfCollection}
-        poolPrize={600}
+        poolPrize={poolPrize}
         awardedWon={300} />
 
       <center style={{ margin: '2rem 0'}}>
@@ -71,7 +77,7 @@ export default function Home({ collectContract }) {
         {collections.map(collection => (
           <Col key={collection.id} className="gutter-row" sm={{ span: 12 }} md={{ span: 8 }} md={{ span: 6 }}>
             <Card>
-              <Card.Meta title={`${collection.collectionName}`} description="Prize Pool: $200" />
+              <Card.Meta title={`${collection.collectionName}`} description={`Prize Pool: MATIC ${ethers.utils.formatUnits(collection.poolPrize.toString(), 'ether')}`} />
               <br />
               <Button type="primary" onClick={() => router.push(`/collection/${collection.id}`)}>
                 View

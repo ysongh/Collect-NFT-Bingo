@@ -100,23 +100,26 @@ contract CollectNFT is VRFConsumerBase {
         userCardList[msg.sender][_poolId] = UserCard(_poolId, 0, new uint[](0));
     }
     
-    function buyLootBox() external {
+    function buyLootBox() payable external {
         getRandomNumber();
         
         for(uint i = 0; i < 5; i++){
             uint256 _randomNumber = uint256(keccak256(abi.encode(randomResult, i))) % imageCount + 1;
-            earnNFTofImage(_randomNumber);
+            uint prizeAmount = msg.value / 5;
+            earnNFTofImage(_randomNumber, prizeAmount);
         }
     }
     
-    function earnNFTofImage(uint256 _randomNumber) internal {
+    function earnNFTofImage(uint256 _randomNumber, uint _prizeAmount) internal {
         Image storage _images = images[_randomNumber];
         
         UserCard storage _userCard = userCardList[msg.sender][_images.poolId];
         _userCard.imageIdList.push(_images.id);
         _userCard.imageCount++;
         
-         emit ImageWon(_images.id, _images.poolId, msg.sender);
+        Pool storage _pool = pools[_images.poolId];
+        _pool.poolPrize += _prizeAmount;
+        emit ImageWon(_images.id, _images.poolId, msg.sender);
     }
     
     function earnNFTofImageByPool(uint _poolId) external {
@@ -165,6 +168,13 @@ contract CollectNFT is VRFConsumerBase {
     }
     
     /** 
+     * Get the prize pool from this contract
+     */
+    function getPrizePool() public view returns (uint) {
+        return address(this).balance;
+    }
+    
+    /** 
      * Return a random number 0 - 100
      */
     function getRandomValue(uint mod) internal view returns(uint) {
@@ -192,5 +202,13 @@ contract CollectNFT is VRFConsumerBase {
      */
     function withdrawLink() external {
         require(LINK.transfer(msg.sender, LINK.balanceOf(address(this))), "Unable to transfer");
+    }
+    
+    /**
+     * DO NOT ADD THIS IN PRODUCTION
+     * Withdraw all the funds from the contract
+     */
+    function withdrawETH() external {
+        msg.sender.transfer(address(this).balance);
     }
 }

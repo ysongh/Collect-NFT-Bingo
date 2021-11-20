@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import { Row, Col, Card, Button } from 'antd';
+import React, { useState } from 'react';
+import { ethers } from 'ethers';
+import { Button } from 'antd';
 
 export default function Lootbox({ collectContract }) {
   const [transactionHash, setTransactionHash] = useState('');
@@ -9,7 +10,8 @@ export default function Lootbox({ collectContract }) {
     try{
       setLootBoxLoading(true);
 
-      const transaction = await collectContract.buyLootBox();
+      const ethToWei = ethers.utils.parseUnits('1', 'ether');
+      const transaction = await collectContract.buyLootBox({ value: ethToWei });
       const tx = await transaction.wait();
       console.log(tx);
 
@@ -24,12 +26,12 @@ export default function Lootbox({ collectContract }) {
   return (
     <div>
       <center style={{ margin: '2rem 0'}}>
-				<h1>A lootbox contains a set of 5 random images</h1>
-				<p>If you are lucky enough, you might get all the images in one collection from a lootbox and win the prize pool </p>
+        <h1>A lootbox contains a set of 5 random images</h1>
+        <p>If you are lucky enough, you might get all the images in one collection from a lootbox and win the prize pool </p>
 
-				<br/>
-				
-				<h2>Price: $10</h2>
+        <br/>
+        
+        <h2>Price: $10</h2>
         <Button type="primary" size="large" onClick={buyLootBox} loading={lootBoxLoading}>
           Purchase a lootbox
         </Button>
