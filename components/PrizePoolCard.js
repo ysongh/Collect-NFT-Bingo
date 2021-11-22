@@ -7,14 +7,21 @@ function PrizePoolCard({ collectionsNum, poolPrize, awardedWon }) {
     <Card>
       <Row gutter={16}>
         <Col className="gutter-col" sm={{ span: 24 }} md={{ span: 8 }}>
-          <Statistic title="Number of Collection for Prize" value={`${collectionsNum}`} />
+          <center>
+            <Statistic title="Number of Collection for Prize" value={`${collectionsNum}`} />
+          </center>
         </Col>
         <Col className="gutter-col" sm={{ span: 24 }} md={{ span: 8 }}>
-          <Statistic title="Total Pool Prize" value={`MATIC ${ethers.utils.formatUnits(poolPrize.toString(), 'ether')}`} />
+          <center>
+            <Statistic title="Total Pool Prize" value={`MATIC ${ethers.utils.formatUnits(poolPrize.toString(), 'ether')}`} />
+          </center>
         </Col>
         <Col className="gutter-col" sm={{ span: 24 }} md={{ span: 8 }}>
-          <Statistic title="Total Winnings Awarded" value={`$${awardedWon}`} />
+          <center>
+            <Statistic title="Total Winnings Awarded" value={`$${awardedWon}`} />
+          </center>
         </Col>
+        
     	</Row>
     </Card>
   )

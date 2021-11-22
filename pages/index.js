@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
+import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { ethers } from 'ethers';
-import { Row, Col, Card, Button } from 'antd';
+import { Row, Col, Card, Typography, Button } from 'antd';
 
 import PrizePoolCard from '../components/PrizePoolCard';
+import HowItWorks from '../components/HowItWorks';
 
 export default function Home({ collectContract }) {
   const router = useRouter();
@@ -58,8 +60,15 @@ export default function Home({ collectContract }) {
         poolPrize={poolPrize}
         awardedWon={300} />
 
+      <HowItWorks />
+
       <center style={{ margin: '2rem 0'}}>
-        <h2>Price: $10</h2>
+        <Image
+          src="/lootbox.png"
+          alt="Logo"
+          width="100"
+          height="100" />
+        <br />
         <Button type="primary" size="large" onClick={buyLootBox} loading={lootBoxLoading}>
           Purchase a lootbox
         </Button>
@@ -77,7 +86,9 @@ export default function Home({ collectContract }) {
         {collections.map(collection => (
           <Col key={collection.id} className="gutter-row" sm={{ span: 12 }} md={{ span: 8 }} md={{ span: 6 }}>
             <Card>
-              <Card.Meta title={`${collection.collectionName}`} description={`Prize Pool: MATIC ${ethers.utils.formatUnits(collection.poolPrize.toString(), 'ether')}`} />
+              <Card.Meta title={`${collection.collectionName}`}/>
+              <Card.Meta description={`Creator: ${collection.creatorName}`} />
+              <Card.Meta description={`Prize Pool: MATIC ${ethers.utils.formatUnits(collection.poolPrize.toString(), 'ether')}`} />
               <br />
               <Button type="primary" onClick={() => router.push(`/collection/${collection.id}`)}>
                 View

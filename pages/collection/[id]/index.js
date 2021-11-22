@@ -45,7 +45,7 @@ export default function CollectionDetail({ collectContract }) {
     <div>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
         <div>
-          <h1>Collection #{collection.id && collection.id.toString()} - {collection.collectionName && collection.collectionName.toString()}</h1>
+          <h1>Collection:{collection.collectionName && collection.collectionName.toString()}</h1>
           <p>Owner {collection.creatorName && collection.creatorName.toString()} ({collection.owner && collection.owner.toString()})</p>
         </div>
         
@@ -67,7 +67,7 @@ export default function CollectionDetail({ collectContract }) {
       </Row>
 
       <center style={{ margin: '2rem 0'}}>
-        <h2>Prize Pool: MATIC {ethers.utils.formatUnits(collection.poolPrize.toString(), 'ether')}</h2>
+        <h2>Prize Pool: MATIC {collection.poolPrize ? ethers.utils.formatUnits(collection.poolPrize.toString(), 'ether') : 0}</h2>
         <Button type="primary" size="large" onClick={claimPrize}>
           Claim Prize
         </Button>
