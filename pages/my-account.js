@@ -1,11 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import { Row, Col, Card, Typography } from 'antd';
+import { Typography } from 'antd';
 
-export default function MyCollection({ collectContract }) {
+import CollectionTabs from '../components/CollectionTabs';
+import MyCollection from '../components/myaccount/MyCollection';
+
+export default function MyAccount({ collectContract }) {
   const router = useRouter();
   const { id } = router.query;
+  let content;
 
+  const [currentTab, setCurrentTab] = useState("My Collections");
   const [imageList, setImageList] = useState([]);
 
   useEffect(() => {
@@ -42,26 +47,25 @@ export default function MyCollection({ collectContract }) {
     setImageList(temp);
   }
 
+  switch (currentTab) {
+    case "My Collections":
+      content = <MyCollection imageList={imageList} />;
+      break;
+    default:
+      content = 'Page not found';
+  }
+
   return (
     <div>
-      <Typography.Title style={{ marginTop: '1rem' }}>
-        My Collections
-      </Typography.Title>
-      {imageList.map(image => (
-        <div style={{ marginBottom: '1rem'}}>
-          <h2>Collection #{image.id.toString()}</h2>
+      <CollectionTabs
+        currentTab={currentTab}
+        setCurrentTab={setCurrentTab} />
 
-          <Row key={image.id.toString()}gutter={[10, 10]} style={{ marginTop: '1rem' }}>
-            {image.imageList.map(collection => (
-              <Col key={collection.id.toString()} className="gutter-row" sm={{ span: 12 }} md={{ span: 8 }} md={{ span: 4 }}>
-                <Card cover={<img src={collection.url} alt="Collection Image" />}>
-                  <Card.Meta title={`Image #${collection.id.toString()}`} />
-                </Card>
-              </Col>
-            ))}
-          </Row>
-        </div>
-      ))}
+      <Typography.Title style={{ marginTop: '1rem' }}>
+        {currentTab}
+      </Typography.Title>
+      
+      {content}
     </div>
   )
 }
