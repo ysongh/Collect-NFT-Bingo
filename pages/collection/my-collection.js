@@ -22,11 +22,17 @@ export default function MyCollection({ collectContract }) {
 
       const userImages = await collectContract.getUserImages(p);
       console.log(userImages);
+      const check = {};
 
       for(let i = 0; i < userImages.length; i++) {
         const imageId = userImages[i];
         const data = await collectContract.images(imageId);
-        list.push(data);
+
+        if(!check[data.id.toString()]){
+          check[data.id.toString()] = true;
+          list.push(data);
+          console.log(check, data);
+        }
       }
 
       obj.id = p;

@@ -36,12 +36,12 @@ function Navbar({ walletAddress, setWalletAddress, setCollectContract }) {
             Lootbox
           </Link>
         </Menu.Item>
-				<Menu.Item key="3">
+        <Menu.Item key="3">
           <Link href="/collection/all">
             Collections
           </Link>
         </Menu.Item>
-				<Menu.Item key="4">
+        <Menu.Item key="4">
           <Link href="/collection/my-collection">
             My Account
           </Link>

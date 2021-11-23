@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { ethers } from 'ethers';
 import { Row, Col, Card, Typography, Button } from 'antd';
 
 export default function CollectionAll({ collectContract }) {
   const router = useRouter();
-  
+
+  const [numberOfCollection, setNumberOfCollection] = useState(0);
   const [collections, setCollections] = useState([]);
 
   useEffect(() => {
@@ -18,9 +18,6 @@ export default function CollectionAll({ collectContract }) {
     const num = await collectContract.poolCount();
     setNumberOfCollection(num);
 
-    const prizeAmount = await collectContract.getPrizePool();
-    setPoolPrize(prizeAmount);
-
     for(let i = 1; i <= num; i++) {
       const data = await collectContract.pools(i);
       temp.push(data);
@@ -28,7 +25,7 @@ export default function CollectionAll({ collectContract }) {
 
     setCollections(temp);
   }
-
+  
   return (
     <div>
       <Typography.Title style={{ marginTop: '1rem' }}>
