@@ -37,12 +37,12 @@ function Navbar({ walletAddress, setWalletAddress, setCollectContract }) {
           </Link>
         </Menu.Item>
 				<Menu.Item key="3">
-          <Link href="/collection/my-collection">
-            My Collection
+          <Link href="/collection/all">
+            Collections
           </Link>
         </Menu.Item>
 				<Menu.Item key="4">
-          <Link href="/">
+          <Link href="/collection/my-collection">
             My Account
           </Link>
         </Menu.Item>

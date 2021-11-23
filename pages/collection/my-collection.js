@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import { Row, Col, Card, Divider, Button } from 'antd';
+import { Row, Col, Card, Typography } from 'antd';
 
 export default function MyCollection({ collectContract }) {
   const router = useRouter();
@@ -40,7 +40,9 @@ export default function MyCollection({ collectContract }) {
 
   return (
     <div>
-      <h1>My Collection</h1>
+      <Typography.Title style={{ marginTop: '1rem' }}>
+        My Collections
+      </Typography.Title>
       {imageList.map(image => (
         <div style={{ marginBottom: '1rem'}}>
           <h2>Collection #{image.id.toString()}</h2>

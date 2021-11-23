@@ -4,10 +4,7 @@ import { useRouter } from 'next/router';
 import { ethers } from 'ethers';
 import { Row, Col, Card, Typography, Button } from 'antd';
 
-import PrizePoolCard from '../components/PrizePoolCard';
-import HowItWorks from '../components/HowItWorks';
-
-export default function Home({ collectContract }) {
+export default function CollectionAll({ collectContract }) {
   const router = useRouter();
 
   const [numberOfCollection, setNumberOfCollection] = useState(0);
@@ -28,7 +25,7 @@ export default function Home({ collectContract }) {
     const prizeAmount = await collectContract.getPrizePool();
     setPoolPrize(prizeAmount);
 
-    for(let i = 1; i <= 4; i++) {
+    for(let i = 1; i <= num; i++) {
       const data = await collectContract.pools(i);
       temp.push(data);
     }
@@ -55,33 +52,9 @@ export default function Home({ collectContract }) {
 
   return (
     <div>
-      <PrizePoolCard 
-        collectionsNum={numberOfCollection}
-        poolPrize={poolPrize}
-        awardedWon={300} />
-
-      <HowItWorks />
-
-      <center style={{ margin: '2rem 0'}}>
-        <Image
-          src="/lootbox.png"
-          alt="Logo"
-          width="100"
-          height="100" />
-        <br />
-        <Button type="primary" size="large" onClick={buyLootBox} loading={lootBoxLoading}>
-          Purchase a lootbox
-        </Button>
-        {transactionHash &&
-          <p className="transactionHash">
-            Success, see transaction {" "}
-            <a href={`https://mumbai.polygonscan.com/tx/${transactionHash}`} target="_blank" rel="noopener noreferrer">
-              {transactionHash.substring(0, 10) + '...' + transactionHash.substring(56, 66)}
-            </a>
-          </p>
-        }
-      </center>
-      
+      <Typography.Title style={{ marginTop: '1rem' }}>
+        Collections
+      </Typography.Title>
       <Row gutter={[10, 10]} style={{ marginTop: '1rem' }}>
         {collections.map(collection => (
           <Col key={collection.id} className="gutter-row" sm={{ span: 24 }} md={{ span: 12 }} lg={{ span: 6 }}>
@@ -96,18 +69,8 @@ export default function Home({ collectContract }) {
             </Card>
           </Col>
         ))}
+        {!collections.length && <p>Connect to your ETH wallet to see collections</p>}
       </Row>
-
-      <center style={{ margin: '2rem 0'}}>
-        <Button type="primary" size="large" onClick={() => router.push(`/collection/all`)}>
-          View All Collections
-        </Button>
-        <br />
-        <br />
-        <Button type="primary" size="large" onClick={() => router.push(`/collection/create`)}>
-          Create your Collection
-        </Button>
-      </center>
     </div>
   )
 }
