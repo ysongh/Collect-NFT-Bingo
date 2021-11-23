@@ -6,12 +6,8 @@ import { Row, Col, Card, Typography, Button } from 'antd';
 
 export default function CollectionAll({ collectContract }) {
   const router = useRouter();
-
-  const [numberOfCollection, setNumberOfCollection] = useState(0);
-  const [poolPrize, setPoolPrize] = useState(0);
+  
   const [collections, setCollections] = useState([]);
-  const [transactionHash, setTransactionHash] = useState('');
-  const [lootBoxLoading, setLootBoxLoading] = useState(false);
 
   useEffect(() => {
     if(collectContract) getCollectionData();
@@ -31,23 +27,6 @@ export default function CollectionAll({ collectContract }) {
     }
 
     setCollections(temp);
-  }
-
-  async function buyLootBox(){
-    try{
-      setLootBoxLoading(true);
-
-      const ethToWei = ethers.utils.parseUnits('1', 'ether');
-      const transaction = await collectContract.buyLootBox({ value: ethToWei });
-      const tx = await transaction.wait();
-      console.log(tx);
-
-      setTransactionHash(tx.transactionHash);
-      setLootBoxLoading(false);
-    } catch(error) {
-      console.error(error);
-      setLootBoxLoading(false);
-    }
   }
 
   return (

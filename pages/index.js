@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { ethers } from 'ethers';
-import { Row, Col, Card, Typography, Button } from 'antd';
+import { Row, Col, Card, Button } from 'antd';
 
 import PrizePoolCard from '../components/PrizePoolCard';
 import HowItWorks from '../components/HowItWorks';

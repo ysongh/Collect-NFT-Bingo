@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Image from 'next/image';
 import { ethers } from 'ethers';
 import { Button } from 'antd';
 
@@ -30,7 +31,15 @@ export default function Lootbox({ collectContract }) {
         <p>If you are lucky enough, you might get all the images in one collection from a lootbox and win the prize pool </p>
 
         <br/>
-        
+
+        <Image
+          src="/lootbox.png"
+          alt="Logo"
+          width="100"
+          height="100" />
+
+        <br />
+
         <h2>Price: $10</h2>
         <Button type="primary" size="large" onClick={buyLootBox} loading={lootBoxLoading}>
           Purchase a lootbox

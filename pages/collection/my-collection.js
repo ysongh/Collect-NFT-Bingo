@@ -36,8 +36,6 @@ export default function MyCollection({ collectContract }) {
     setImageList(temp);
   }
 
-  
-
   return (
     <div>
       <Typography.Title style={{ marginTop: '1rem' }}>
