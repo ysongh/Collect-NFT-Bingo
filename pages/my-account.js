@@ -4,6 +4,7 @@ import { Typography } from 'antd';
 
 import CollectionTabs from '../components/CollectionTabs';
 import MyCollection from '../components/myaccount/MyCollection';
+import MyPublicCollage from '../components/myaccount/MyPublicCollage';
 
 export default function MyAccount({ collectContract }) {
   const router = useRouter();
@@ -12,6 +13,7 @@ export default function MyAccount({ collectContract }) {
 
   const [currentTab, setCurrentTab] = useState("My Collections");
   const [imageList, setImageList] = useState([]);
+  const [myPublicCollage, setMyPublicCollage] = useState([]);
 
   useEffect(() => {
     if(collectContract) getUserCollectionData();
@@ -49,7 +51,10 @@ export default function MyAccount({ collectContract }) {
 
   switch (currentTab) {
     case "My Collections":
-      content = <MyCollection imageList={imageList} />;
+      content = <MyCollection imageList={imageList} myPublicCollage={myPublicCollage} setMyPublicCollage={setMyPublicCollage} />;
+      break;
+    case "My Public Collage":
+      content = <MyPublicCollage myPublicCollage={myPublicCollage} />;
       break;
     default:
       content = 'Page not found';
