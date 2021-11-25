@@ -4,6 +4,7 @@ import { Web3Storage } from 'web3.storage';
 import { Row, Col, Form, Upload, Input, Button, message } from 'antd';
 import { InboxOutlined } from '@ant-design/icons';
 
+import CollectionBreadcrumb from '../../../components/common/CollectionBreadcrumb';
 const client = new Web3Storage({ token: process.env.NEXT_PUBLIC_WEB3STORAGE_APIKEY });
 
 export default function AddImageToColllection({ collectContract }) {
@@ -58,6 +59,8 @@ export default function AddImageToColllection({ collectContract }) {
 
   return (
     <div>
+      <CollectionBreadcrumb collectionId={id} isAddImage={true} />
+
       <h1>Add Image for Collection #{id}</h1>
 
       <Form form={form} layout="vertical">

@@ -3,6 +3,8 @@ import { useRouter } from 'next/router';
 import { ethers } from 'ethers';
 import { Row, Col, Card, Typography, Button } from 'antd';
 
+import CollectionBreadcrumb from '../../components/common/CollectionBreadcrumb';
+
 export default function CollectionAll({ collectContract }) {
   const router = useRouter();
 
@@ -28,6 +30,7 @@ export default function CollectionAll({ collectContract }) {
   
   return (
     <div>
+      <CollectionBreadcrumb />
       <Typography.Title style={{ marginTop: '1rem' }}>
         Collections
       </Typography.Title>

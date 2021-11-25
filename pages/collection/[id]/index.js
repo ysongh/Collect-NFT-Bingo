@@ -3,6 +3,8 @@ import { useRouter } from 'next/router';
 import { ethers } from 'ethers';
 import { Row, Col, Card, Divider, Button } from 'antd';
 
+import CollectionBreadcrumb from '../../../components/common/CollectionBreadcrumb';
+
 export default function CollectionDetail({ collectContract }) {
   const router = useRouter();
   const { id } = router.query;
@@ -43,6 +45,8 @@ export default function CollectionDetail({ collectContract }) {
 
   return (
     <div>
+      <CollectionBreadcrumb collectionId={id} />
+      
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
         <div>
           <h1>Collection:{collection.collectionName && collection.collectionName.toString()}</h1>
