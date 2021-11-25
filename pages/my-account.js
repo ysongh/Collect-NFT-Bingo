@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { Typography } from 'antd';
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
 
 import CollectionTabs from '../components/CollectionTabs';
 import MyCollection from '../components/myaccount/MyCollection';
@@ -54,7 +56,16 @@ export default function MyAccount({ collectContract }) {
       content = <MyCollection imageList={imageList} myPublicCollage={myPublicCollage} setMyPublicCollage={setMyPublicCollage} />;
       break;
     case "My Public Collage":
-      content = <MyPublicCollage myPublicCollage={myPublicCollage} />;
+      content = (
+        <div>Comming soon...</div>
+      );
+      break;
+    case "Mint NFT":
+      content = (
+        <DndProvider backend={HTML5Backend}>
+          <MyPublicCollage myPublicCollage={myPublicCollage} />
+        </DndProvider>
+      );
       break;
     default:
       content = 'Page not found';
