@@ -10,7 +10,7 @@ contract CollectNFT is VRFConsumerBase {
     
     uint public imageCount = 0;
     mapping(uint => Image) public images;
-    
+
     mapping(address => mapping(uint => UserCard)) public userCardList;
     
     bytes32 internal keyHash;
@@ -58,6 +58,8 @@ contract CollectNFT is VRFConsumerBase {
         uint poolId;
         uint imageCount;
         uint[] imageIdList;
+        uint winCount;
+        uint[] winList;
     }
     
     event ImageCreated (
@@ -67,10 +69,15 @@ contract CollectNFT is VRFConsumerBase {
         address payable owner
     );
     
-    event ImageWon (
-        uint imageId,
-        uint poolId,
+    event LootBoxResult (
+        uint256[] imageIdList,
         address payable owner
+    );
+
+    event PrizeWon (
+        uint poolId,
+        uint amount,
+        address payable winner
     );
     
     function createPool(string memory _collectionName, string memory _creatorName, string memory _description, string[] memory _urls, uint _arrLength) external {
@@ -97,17 +104,22 @@ contract CollectNFT is VRFConsumerBase {
     }
     
     function createUserCard(uint _poolId) external {
-        userCardList[msg.sender][_poolId] = UserCard(_poolId, 0, new uint[](0));
+        userCardList[msg.sender][_poolId] = UserCard(_poolId, 0, new uint[](0), 0, new uint[](0));
     }
     
     function buyLootBox() payable external {
         getRandomNumber();
-        
+
+        uint256[] memory imageWonList = new uint256[](5);
+
         for(uint i = 0; i < 5; i++){
             uint256 _randomNumber = uint256(keccak256(abi.encode(randomResult, i))) % imageCount + 1;
             uint prizeAmount = msg.value / 5;
             earnNFTofImage(_randomNumber, prizeAmount);
+            imageWonList[i] = _randomNumber;
         }
+
+        emit LootBoxResult(imageWonList, msg.sender);
     }
     
     function earnNFTofImage(uint256 _randomNumber, uint _prizeAmount) internal {
@@ -119,7 +131,6 @@ contract CollectNFT is VRFConsumerBase {
         
         Pool storage _pool = pools[_images.poolId];
         _pool.poolPrize += _prizeAmount;
-        emit ImageWon(_images.id, _images.poolId, msg.sender);
     }
     
     function earnNFTofImageByPool(uint _poolId) external {
@@ -165,6 +176,24 @@ contract CollectNFT is VRFConsumerBase {
         }
         
         return true;
+    }
+
+    function claimPrize(uint _poolId) external {
+        Pool storage _pool = pools[_poolId];
+        UserCard storage _userCard = userCardList[msg.sender][_poolId];
+
+        for(uint i = 0; i < _userCard.winCount; i++){
+            require(_userCard.winList[i] != _poolId);
+        }
+
+        require(checkWinner(_poolId));
+
+        _userCard.winList.push(_poolId);
+        uint amount = (_pool.poolPrize * 50) / 100;
+        msg.sender.transfer(amount);
+        _pool.poolPrize -= amount;
+
+        emit PrizeWon(_poolId, amount, msg.sender);
     }
     
     /** 

@@ -15,7 +15,12 @@ a {
   box-sizing: border-box;
 }
 
-.ant-upload.ant-upload-drag{
+.transactionHash {
+  margin-top: .7rem;
+  color: green;
+}
+
+.ant-upload.ant-upload-drag {
   max-width: 500px;
   height: 200px !important;
 }
