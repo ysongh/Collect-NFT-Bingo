@@ -16,8 +16,7 @@ function Picture({ id, collection }) {
       ref={drag}
       src={collection.url}
       alt="Collection Image"
-      style={{ border: isDragging ? "5px solid blue" : "0px" }}
-      style={{ width: "100%"}} />
+      style={{ border: isDragging ? "5px solid blue" : "0px", width: "100%" }} />
   )
 }
 

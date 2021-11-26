@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import Image from 'next/image';
 import { ethers } from 'ethers';
 import { Row, Col, Button } from 'antd';
 
@@ -51,8 +50,8 @@ export default function Lootbox({ collectContract }) {
 
         <br/>
 
-        <Image
-          src="/lootbox.png"
+        <img
+          src="https://bafybeihp7nbjque6nbj2airvuhfqzyoxpon7plszajf667zvnndp5lao3i.ipfs.dweb.link/lootbox.png"
           alt="Logo"
           width="100"
           height="100" />
@@ -75,7 +74,7 @@ export default function Lootbox({ collectContract }) {
           </>
         }
         
-        <Row gutter={[10, 10]} style={{ marginTop: '.5rem' }} style={{ maxWidth: '600px', marginTop: '2rem'}}>
+        <Row gutter={[10, 10]} style={{ maxWidth: '600px', marginTop: '2rem'}}>
           {imageList.map((piece, index) => (
             <Col key={index} className="gutter-row" sm={{ span: 12 }} md={{ span: 8 }}>
               <img src={piece} alt="Piece" width={'100%'}/>

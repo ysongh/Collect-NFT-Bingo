@@ -1,5 +1,4 @@
 import React from 'react';
-import Image from 'next/image';
 import { Card, Row, Col, Typography } from 'antd';
 
 function HowItWorks() {
@@ -12,15 +11,15 @@ function HowItWorks() {
       <Row gutter={20} align="middle">
         <Col className="gutter-col" sm={{ span: 24 }} md={{ span: 8 }}>
           <center>
-            <Image
-              src="/lootbox.png"
+            <img
+              src="https://bafybeihp7nbjque6nbj2airvuhfqzyoxpon7plszajf667zvnndp5lao3i.ipfs.dweb.link/earn.png"
               alt="Logo"
               width="80"
               height="80" />
             <Typography.Paragraph>Purchase Lootboxes</Typography.Paragraph>
             <Typography.Paragraph>Or</Typography.Paragraph>
-            <Image
-              src="/earn.png"
+            <img
+              src="https://bafybeihp7nbjque6nbj2airvuhfqzyoxpon7plszajf667zvnndp5lao3i.ipfs.dweb.link/lootbox.png"
               alt="Logo"
               width="80"
               height="80" />
@@ -29,8 +28,8 @@ function HowItWorks() {
         </Col>
         <Col className="gutter-col" sm={{ span: 24 }} md={{ span: 8 }}>
           <center>
-            <Image
-              src="/collection.png"
+            <img
+              src="https://bafybeihp7nbjque6nbj2airvuhfqzyoxpon7plszajf667zvnndp5lao3i.ipfs.dweb.link/collection.png"
               alt="Logo"
               width="150"
               height="150" />
@@ -39,8 +38,8 @@ function HowItWorks() {
         </Col>
         <Col className="gutter-col" sm={{ span: 24 }} md={{ span: 8 }}>
           <center>
-            <Image
-              src="/coin.png"
+            <img
+              src="https://bafybeihp7nbjque6nbj2airvuhfqzyoxpon7plszajf667zvnndp5lao3i.ipfs.dweb.link/coin.png"
               alt="Logo"
               width="150"
               height="150" />

@@ -14,26 +14,26 @@ export default function CollectionDetail({ collectContract }) {
   const [isWinnerText, setIsWinnerText] = useState("");
 
   useEffect(() => {
-    if(collectContract) getCollectionData();
-  }, [collectContract])
-
-  async function getCollectionData(){
-    const data = await collectContract.pools(id);
-    console.log(data)
-    setCollection(data);
-
-    const poolImages = await collectContract.getPoolImages(id);
-    console.log(poolImages);
-
-    let temp = [];
-    for(let i = 0; i < poolImages.length; i++) {
-      const imageId = poolImages[i];
-      const data = await collectContract.images(imageId);
-      temp.push(data);
+    async function getCollectionData(){
+      const data = await collectContract.pools(id);
+      console.log(data)
+      setCollection(data);
+  
+      const poolImages = await collectContract.getPoolImages(id);
+      console.log(poolImages);
+  
+      let temp = [];
+      for(let i = 0; i < poolImages.length; i++) {
+        const imageId = poolImages[i];
+        const data = await collectContract.images(imageId);
+        temp.push(data);
+      }
+  
+      setImageList(temp);
     }
 
-    setImageList(temp);
-  }
+    if(collectContract) getCollectionData();
+  }, [collectContract])
 
   async function claimPrize() {
     const isWinner = await collectContract.checkWinner(id);
@@ -62,7 +62,7 @@ export default function CollectionDetail({ collectContract }) {
 
       <Row gutter={[10, 10]} style={{ marginTop: '1rem' }}>
         {imageList.map(image => (
-          <Col key={image.id.toString()} className="gutter-row" sm={{ span: 12 }} md={{ span: 8 }} md={{ span: 6 }}>
+          <Col key={image.id.toString()} className="gutter-row" sm={{ span: 12 }} md={{ span: 8 }} lg={{ span: 6 }}>
             <Card cover={<img src={image.url} alt="Collection Image" />}>
               <Card.Meta title={`Image #${image.id.toString()}`} />
             </Card>

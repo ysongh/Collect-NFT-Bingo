@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { ethers } from 'ethers';
 import { Row, Col, Card, Button } from 'antd';
@@ -63,8 +62,8 @@ export default function Home({ collectContract }) {
       <HowItWorks />
 
       <center style={{ margin: '2rem 0'}}>
-        <Image
-          src="/lootbox.png"
+        <img
+          src="https://bafybeihp7nbjque6nbj2airvuhfqzyoxpon7plszajf667zvnndp5lao3i.ipfs.dweb.link/lootbox.png"
           alt="Logo"
           width="100"
           height="100" />

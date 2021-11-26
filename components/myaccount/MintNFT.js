@@ -81,7 +81,7 @@ function MintNFT({ myPublicCollage, walletAddress }) {
       <p>Drag and Drop to the broad</p>
       <Row gutter={[10, 10]} style={{ marginTop: '1rem' }}>
         {myPublicCollage.map(collection => (
-          <Col key={collection.id.toString()} className="gutter-row" sm={{ span: 12 }} md={{ span: 8 }} md={{ span: 4 }}>
+          <Col key={collection.id.toString()} className="gutter-row" sm={{ span: 12 }} md={{ span: 8 }} lg={{ span: 4 }}>
             <Card cover={<Picture id={collection.id.toString()} collection={collection} />}>
               <Card.Meta title={`Image #${collection.id.toString()}`} />
             </Card>
@@ -93,7 +93,7 @@ function MintNFT({ myPublicCollage, walletAddress }) {
       <div id="imagesBoard" className="Board" ref={drop}>
         <Row gutter={[10, 10]} style={{ marginTop: '1rem' }}>
           {board.map((picture, index) => (
-            <Col key={index} className="gutter-row" sm={{ span: 12 }} md={{ span: 8 }} md={{ span: 4 }}> 
+            <Col key={index} className="gutter-row" sm={{ span: 12 }} md={{ span: 8 }} lg={{ span: 4 }}> 
               <Picture id={index} collection={picture} />
             </Col>
           ))}
@@ -101,7 +101,7 @@ function MintNFT({ myPublicCollage, walletAddress }) {
       </div>
       <center>
         <br />
-        <Button type="primary" size="large" onClick={mintBoardAsNFT} size="large" loading={loading}>
+        <Button type="primary" size="large" onClick={mintBoardAsNFT} loading={loading}>
           Mint as NFT
         </Button>
 
