@@ -78,6 +78,7 @@ function MintNFT({ myPublicCollage, walletAddress }) {
 
   return (
     <div>
+      <p>Drag and Drop to the broad</p>
       <Row gutter={[10, 10]} style={{ marginTop: '1rem' }}>
         {myPublicCollage.map(collection => (
           <Col key={collection.id.toString()} className="gutter-row" sm={{ span: 12 }} md={{ span: 8 }} md={{ span: 4 }}>
@@ -87,6 +88,8 @@ function MintNFT({ myPublicCollage, walletAddress }) {
           </Col>
         ))}
       </Row>
+      <br />
+      <p>Your board to be minted as NFT</p>
       <div id="imagesBoard" className="Board" ref={drop}>
         <Row gutter={[10, 10]} style={{ marginTop: '1rem' }}>
           {board.map((picture, index) => (

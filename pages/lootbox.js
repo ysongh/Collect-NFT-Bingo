@@ -71,7 +71,7 @@ export default function Lootbox({ collectContract }) {
                 {transactionHash.substring(0, 10) + '...' + transactionHash.substring(56, 66)}
               </a>
             </p>
-            <p>You Won the following</p>
+            <p>You got the following</p>
           </>
         }
         

@@ -13,14 +13,14 @@ function HowItWorks() {
         <Col className="gutter-col" sm={{ span: 24 }} md={{ span: 8 }}>
           <center>
             <Image
-              src="/earn.png"
+              src="/lootbox.png"
               alt="Logo"
               width="80"
               height="80" />
             <Typography.Paragraph>Purchase Lootboxes</Typography.Paragraph>
             <Typography.Paragraph>Or</Typography.Paragraph>
             <Image
-              src="/lootbox.png"
+              src="/earn.png"
               alt="Logo"
               width="80"
               height="80" />
@@ -34,7 +34,7 @@ function HowItWorks() {
               alt="Logo"
               width="150"
               height="150" />
-            <Typography.Paragraph>Complete a Collection</Typography.Paragraph>
+            <Typography.Paragraph className="howitworks_p">Complete a Collection</Typography.Paragraph>
           </center>
         </Col>
         <Col className="gutter-col" sm={{ span: 24 }} md={{ span: 8 }}>
@@ -44,7 +44,7 @@ function HowItWorks() {
               alt="Logo"
               width="150"
               height="150" />
-            <Typography.Paragraph>Complete a Collection</Typography.Paragraph>
+            <Typography.Paragraph className="howitworks_p">Claim Prize</Typography.Paragraph>
           </center>
         </Col>
     	</Row>

@@ -4,7 +4,7 @@ import { Card, Row, Col, Statistic } from 'antd';
 
 function PrizePoolCard({ collectionsNum, poolPrize, awardedWon }) {
   return (
-    <Card>
+    <Card style={{ background: '#94daff'}}>
       <Row gutter={16}>
         <Col className="gutter-col" sm={{ span: 24 }} md={{ span: 8 }}>
           <center>

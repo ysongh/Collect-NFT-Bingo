@@ -1,5 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { Layout, Menu, Button } from 'antd';
 import { ethers } from 'ethers';
 import Web3Modal from 'web3modal';
@@ -24,7 +25,7 @@ function Navbar({ walletAddress, setWalletAddress, setCollectContract }) {
 
   return (
     <Layout.Header style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-      <h2 style={{ color: 'white'}}>Logo</h2>
+      <Image src="/logo.jpg" alt="logo" width="110" height="50" />
       <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['1']}>
         <Menu.Item key="1">
           <Link href="/">

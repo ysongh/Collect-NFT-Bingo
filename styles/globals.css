@@ -15,6 +15,11 @@ a {
   box-sizing: border-box;
 }
 
+.howitworks_p {
+  font-size: 2rem;
+  margin-top: 1rem;
+}
+
 .transactionHash {
   margin-top: .7rem;
   color: green;
