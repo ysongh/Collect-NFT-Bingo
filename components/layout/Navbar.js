@@ -23,9 +23,9 @@ function Navbar({ walletAddress, setWalletAddress, setCollectContract }) {
   }
 
   return (
-    <Layout.Header style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+    <Layout.Header style={{ display: 'flex', alignItems: 'center' }}>
       <img src="https://bafybeihp7nbjque6nbj2airvuhfqzyoxpon7plszajf667zvnndp5lao3i.ipfs.dweb.link/logo.jpg" alt="logo" width="110" height="50" />
-      <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['1']}>
+      <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['1']} style={{ flex: 2 }}>
         <Menu.Item key="1">
           <Link href="/">
             Home

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { ethers } from 'ethers';
-import { Row, Col, Card, Divider, Button } from 'antd';
+import { Row, Col, Card, Form, Input, Divider, Button } from 'antd';
 
 import CollectionBreadcrumb from '../../../components/common/CollectionBreadcrumb';
 
@@ -87,7 +87,18 @@ export default function CollectionDetail({ collectContract }) {
       </center>
 
       <Divider>Earn a Piece</Divider>
-      <p>Comming Soon...</p>
+      <center style={{ margin: '2rem 0'}}>
+        <Form.Item
+          name="code"
+          style={{ maxWidth: '500px'}}
+        >
+          <p>Enter Code</p>
+          <Input onChange={(e) => setCollectionName(e.target.value)} />
+        </Form.Item>
+        <Button type="primary" size="large">
+          Submit
+        </Button>
+      </center>
     </div>
   )
 }
