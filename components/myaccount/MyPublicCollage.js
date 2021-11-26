@@ -1,46 +1,35 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Row, Col, Card } from 'antd';
-import { useDrop } from "react-dnd";
 
-import Picture from "../common/Picture";
+function MyPublicCollage({ walletAddress }) {
+  const [userNFTs, setUserNFTs] = useState([]);
 
-function MyPublicCollage({ myPublicCollage }) {
-  const [board, setBoard] = useState([]);
+  useEffect(() => {
+    if(walletAddress) loadMyCollection();
+  }, [walletAddress])
 
-  const [{ isOver }, drop] = useDrop(() => ({
-    accept: "image",
-    drop: (collection) => addImageToBoard(collection),
-    collect: (monitor) => ({
-      isOver: !!monitor.isOver(),
-    }),
-  }));
+  const loadMyCollection = async () => {
+    try{
+      const nft = await fetch(`https://api.covalenthq.com/v1/137/address/${walletAddress}/balances_v2/?nft=true&key=${process.env.NEXT_PUBLIC_COVALENT_APIKEY}`);
+      const { data } = await nft.json();
 
-  const addImageToBoard = ({ collection }) => {
-    console.log(collection, board, "pictureList")
-    setBoard((board) => [...board, collection]);
-  };
+      console.log(data);
+      console.log(data.items[0].nft_data);
+      setUserNFTs(data.items[0].nft_data);
+    } catch(error) {
+      console.error(error);
+    }
+  }
 
   return (
-    <div>
-      <Row gutter={[10, 10]} style={{ marginTop: '1rem' }}>
-        {myPublicCollage.map(collection => (
-          <Col key={collection.id.toString()} className="gutter-row" sm={{ span: 12 }} md={{ span: 8 }} md={{ span: 4 }}>
-            <Card cover={<Picture id={collection.id.toString()} collection={collection} />}>
-              <Card.Meta title={`Image #${collection.id.toString()}`} />
-            </Card>
-          </Col>
-        ))}
-      </Row>
-      <div id="signatureBoard" className="Board" ref={drop}>
-        <Row gutter={[10, 10]} style={{ marginTop: '1rem' }}>
-          {board.map((picture, index) => (
-            <Col key={index} className="gutter-row" sm={{ span: 12 }} md={{ span: 8 }} md={{ span: 4 }}> 
-              <Picture id={index} collection={picture} />
-            </Col>
-          ))}
-        </Row>
-      </div>
-    </div>
+    <Row gutter={[10, 10]} style={{ marginTop: '1rem' }}>
+      {userNFTs.map(nft => (
+        <Col key={nft.token_id} className="gutter-row" sm={{ span: 24 }} md={{ span: 12 }} lg={{ span: 6 }}>
+          <Card cover={<img src={nft.external_data.image} alt="Collection NFT" />}>
+          </Card>
+        </Col>
+      ))}
+    </Row>
   )
 }
 

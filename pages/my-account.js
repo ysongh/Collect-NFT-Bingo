@@ -7,8 +7,9 @@ import { HTML5Backend } from 'react-dnd-html5-backend';
 import CollectionTabs from '../components/CollectionTabs';
 import MyCollection from '../components/myaccount/MyCollection';
 import MyPublicCollage from '../components/myaccount/MyPublicCollage';
+import MintNFT from '../components/myaccount/MintNFT';
 
-export default function MyAccount({ collectContract }) {
+export default function MyAccount({ walletAddress, collectContract }) {
   const router = useRouter();
   const { id } = router.query;
   let content;
@@ -56,14 +57,12 @@ export default function MyAccount({ collectContract }) {
       content = <MyCollection imageList={imageList} myPublicCollage={myPublicCollage} setMyPublicCollage={setMyPublicCollage} />;
       break;
     case "My Public Collage":
-      content = (
-        <div>Comming soon...</div>
-      );
+      content = <MyPublicCollage walletAddress={walletAddress} />
       break;
     case "Mint NFT":
       content = (
         <DndProvider backend={HTML5Backend}>
-          <MyPublicCollage myPublicCollage={myPublicCollage} />
+          <MintNFT myPublicCollage={myPublicCollage} walletAddress={walletAddress} />
         </DndProvider>
       );
       break;
