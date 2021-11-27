@@ -15,6 +15,8 @@ export default function CollectionDetail({ collectContract }) {
   const [isWinnerText, setIsWinnerText] = useState("");
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [fundTransactionHash, setFundTransactionHash] = useState("");
+  const [claimTransactionHash, setClaimTransactionHash] = useState("");
+  const [claimLoading, setClaimLoading] = useState(false);
 
   useEffect(() => {
     async function getCollectionData(){
@@ -39,11 +41,27 @@ export default function CollectionDetail({ collectContract }) {
   }, [collectContract])
 
   async function claimPrize() {
-    const isWinner = await collectContract.checkWinner(id);
-    console.log(isWinner);
+    try{
+      setClaimLoading(true);
+      const transaction = await collectContract.claimPrize(id);
+      const tx = await transaction.wait();
+      console.log(tx);
 
-    if(isWinner) setIsWinnerText("You Won!");
-    else setIsWinnerText("You did not win!");
+      setClaimTransactionHash(tx.transactionHash);
+      setIsWinnerText("You Won!");
+      setClaimLoading(false);
+    } catch(error){
+      console.error(error);
+      setClaimLoading(false);
+
+      if(error.data){
+        setIsWinnerText(error.data.message);
+      }
+      else{
+        setIsWinnerText("Please connnect to a wallet");
+      }
+      
+    }
   }
 
   async function addFund(amount) {
@@ -91,6 +109,15 @@ export default function CollectionDetail({ collectContract }) {
         <Button type="primary" size="large" onClick={claimPrize}>
           Claim Prize
         </Button>
+        <br />
+        {claimTransactionHash &&
+          <p className="transactionHash">
+            Success, see transaction {" "}
+            <a href={`https://mumbai.polygonscan.com/tx/${claimTransactionHash}`} target="_blank" rel="noopener noreferrer">
+              {claimTransactionHash.substring(0, 10) + '...' + claimTransactionHash.substring(56, 66)}
+            </a>
+          </p>
+        }
         <br />
         <h4>{isWinnerText}</h4>
         <br />
