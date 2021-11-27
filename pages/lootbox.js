@@ -16,7 +16,7 @@ export default function Lootbox({ collectContract }) {
     try{
       setLootBoxLoading(true);
 
-      const ethToWei = ethers.utils.parseUnits('1', 'ether');
+      const ethToWei = ethers.utils.parseUnits('0.5', 'ether');
       const transaction = await collectContract.buyLootBox({ value: ethToWei });
       const tx = await transaction.wait();
       console.log(tx);
@@ -58,7 +58,7 @@ export default function Lootbox({ collectContract }) {
 
         <br />
 
-        <h2>Price: $10</h2>
+        <h2>Price: 0.5 MATIC</h2>
         <Button type="primary" size="large" onClick={buyLootBox} loading={lootBoxLoading}>
           Purchase a lootbox
         </Button>

@@ -12,6 +12,8 @@ contract CollectNFT is VRFConsumerBase {
     mapping(uint => Image) public images;
 
     mapping(address => mapping(uint => UserCard)) public userCardList;
+
+    uint public amountWon = 0;
     
     bytes32 internal keyHash;
     uint256 internal fee;
@@ -78,6 +80,12 @@ contract CollectNFT is VRFConsumerBase {
         uint poolId,
         uint amount,
         address payable winner
+    );
+
+    event CollectionFunded (
+        uint poolId,
+        uint amount,
+        address payable from
     );
     
     function createPool(string memory _collectionName, string memory _creatorName, string memory _description, string[] memory _urls, uint _arrLength) external {
@@ -183,17 +191,27 @@ contract CollectNFT is VRFConsumerBase {
         UserCard storage _userCard = userCardList[msg.sender][_poolId];
 
         for(uint i = 0; i < _userCard.winCount; i++){
-            require(_userCard.winList[i] != _poolId);
+            require(_userCard.winList[i] != _poolId,  "You already won for this collection");
         }
 
-        require(checkWinner(_poolId));
+        require(checkWinner(_poolId), "You did not have all the pieces");
 
+        _userCard.winCount += 1;
         _userCard.winList.push(_poolId);
+
         uint amount = (_pool.poolPrize * 50) / 100;
         msg.sender.transfer(amount);
         _pool.poolPrize -= amount;
+        amountWon += amount;
 
         emit PrizeWon(_poolId, amount, msg.sender);
+    }
+
+    function fundACollection(uint _poolId) payable external {
+        Pool storage _pool = pools[_poolId];
+        _pool.poolPrize += msg.value;
+
+        emit CollectionFunded(_poolId,  msg.value, msg.sender);
     }
     
     /** 

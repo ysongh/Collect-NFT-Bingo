@@ -4,6 +4,7 @@ import { ethers } from 'ethers';
 import { Row, Col, Card, Form, Input, Divider, Button } from 'antd';
 
 import CollectionBreadcrumb from '../../../components/common/CollectionBreadcrumb';
+import AddFundModal from '../../../components/AddFundModal';
 
 export default function CollectionDetail({ collectContract }) {
   const router = useRouter();
@@ -12,6 +13,8 @@ export default function CollectionDetail({ collectContract }) {
   const [collection, setCollection] = useState({});
   const [imageList, setImageList] = useState([]);
   const [isWinnerText, setIsWinnerText] = useState("");
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [fundTransactionHash, setFundTransactionHash] = useState("");
 
   useEffect(() => {
     async function getCollectionData(){
@@ -43,6 +46,14 @@ export default function CollectionDetail({ collectContract }) {
     else setIsWinnerText("You did not win!");
   }
 
+  async function addFund(amount) {
+    const ethToWei = ethers.utils.parseUnits(amount.toString(), 'ether');
+    const transaction = await collectContract.fundACollection(id, { value: ethToWei });
+    const tx = await transaction.wait();
+    console.log(tx);
+    setFundTransactionHash(tx.transactionHash);
+  }
+
   return (
     <div>
       <CollectionBreadcrumb collectionId={id} />
@@ -72,6 +83,11 @@ export default function CollectionDetail({ collectContract }) {
 
       <center style={{ margin: '2rem 0'}}>
         <h2>Prize Pool: MATIC {collection.poolPrize ? ethers.utils.formatUnits(collection.poolPrize.toString(), 'ether') : 0}</h2>
+        <Button type="primary" size="large" onClick={() => setIsModalVisible(true)}>
+          Add Fund to the Collection
+        </Button>
+        <br />
+        <br />
         <Button type="primary" size="large" onClick={claimPrize}>
           Claim Prize
         </Button>
@@ -93,12 +109,18 @@ export default function CollectionDetail({ collectContract }) {
           style={{ maxWidth: '500px'}}
         >
           <p>Enter Code</p>
-          <Input onChange={(e) => setCollectionName(e.target.value)} />
+          <Input />
         </Form.Item>
         <Button type="primary" size="large">
           Submit
         </Button>
       </center>
+
+      <AddFundModal
+        isModalVisible={isModalVisible}
+        setIsModalVisible={setIsModalVisible}
+        fundTransactionHash={fundTransactionHash}
+        addFund={addFund} />
     </div>
   )
 }

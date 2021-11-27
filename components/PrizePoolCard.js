@@ -18,7 +18,7 @@ function PrizePoolCard({ collectionsNum, poolPrize, awardedWon }) {
         </Col>
         <Col className="gutter-col" sm={{ span: 24 }} md={{ span: 8 }}>
           <center>
-            <Statistic title="Total Winnings Awarded" value={`$${awardedWon}`} />
+            <Statistic title="Total Winnings Awarded" value={`MATIC ${ethers.utils.formatUnits(awardedWon.toString(), 'ether')}`} />
           </center>
         </Col>
         

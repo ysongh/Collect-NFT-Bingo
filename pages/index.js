@@ -11,6 +11,7 @@ export default function Home({ collectContract }) {
 
   const [numberOfCollection, setNumberOfCollection] = useState(0);
   const [poolPrize, setPoolPrize] = useState(0);
+  const [amountWon, setAmountWon] = useState(0);
   const [collections, setCollections] = useState([]);
   const [transactionHash, setTransactionHash] = useState('');
   const [lootBoxLoading, setLootBoxLoading] = useState(false);
@@ -26,6 +27,9 @@ export default function Home({ collectContract }) {
 
     const prizeAmount = await collectContract.getPrizePool();
     setPoolPrize(prizeAmount);
+
+    const _amountWon = await collectContract.amountWon();
+    setAmountWon(_amountWon);
 
     for(let i = 1; i <= 4; i++) {
       const data = await collectContract.pools(i);
@@ -57,7 +61,7 @@ export default function Home({ collectContract }) {
       <PrizePoolCard 
         collectionsNum={numberOfCollection}
         poolPrize={poolPrize}
-        awardedWon={300} />
+        awardedWon={amountWon} />
 
       <HowItWorks />
 
